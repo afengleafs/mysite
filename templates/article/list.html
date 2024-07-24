@@ -1,0 +1,98 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    首页
+{% endblock title %}
+{% block content %}
+<main class="flex-shrink-0 mb-5">
+  <div class="container">
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+    
+       {% if column %}
+        <h2>{{ column.title }}栏目的文章</h2>
+    {% else %}
+        <h2>所有文章</h2>
+    {% endif %}
+
+        <!-- 新增，搜索提示语 -->
+    {% if search %}
+        {% if articles %}
+            <h4><span style="color: red">"{{ search }}"</span>的搜索结果如下：</h4>
+            <hr>        
+        {% else %}
+            <h4>暂无<span style="color: red">"{{ search }}"</span>有关的文章。</h4>
+            <hr>
+        {% endif %}
+    {% endif %}
+        {% for article in articles %}
+    <div class="d-flex text-muted pt-3">
+<svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#6f42c1"></rect><text x="50%" y="50%" fill="#6f42c1" dy=".3em">32x32</text></svg>
+
+        <div class="pb-1 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+          <strong class="text-dark">{{ article.column.title }}—{{ article.title}}</strong>
+          <a href={% url 'article:article_detail' article.id %}>链接</a>
+        </div>
+
+                        <p>
+                <span style="color: green;">
+                    @{{ article.author }} &nbsp;&nbsp;&nbsp;
+                </span>
+                <span style="color: blue;">
+                    {{ article.created|date:'Y-m-d' }} 发布&nbsp;&nbsp;&nbsp;
+                </span>
+                <span style="color: darkred;">
+                    {{ article.updated|date:'Y-m-d' }} 更新
+                </span>
+            </p>
+      </div>
+    </div>
+        {% endfor %}
+
+
+        <!-- 页码导航 -->
+        <div class="pagination row mt-2">
+            <div class="m-auto d-flex justify-content-center">
+                <span class="step-links">
+                    <!-- 如果不是第一页，则显示上翻按钮 -->
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1&search={{ search }}" class="btn btn-success">
+                            &laquo; 1
+                        </a>
+                        <span>...</span>
+                        <a href="?page={{ page_obj.previous_page_number }}&search={{ search }}"
+                           class="btn btn-secondary"
+                        >
+                            {{ page_obj.previous_page_number }}
+                        </a>
+                    {% endif %}
+        
+                    <!-- 当前页面 -->
+                    <span class="current btn btn-danger btn-lg">
+                        {{ page_obj.number }}
+                    </span>
+        
+                    <!-- 如果不是最末页，则显示下翻按钮 -->
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}&search={{ search }}"
+                           class="btn btn-secondary"
+                        >
+                            {{ page_obj.next_page_number }}
+                        </a>
+                        <span>...</span>
+                        <a href="?page={{ page_obj.paginator.num_pages }}&search={{ search }}"
+                           class="btn btn-success"
+                        >
+                            {{ page_obj.paginator.num_pages }} &raquo;
+                        </a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+          </div>
+  </div>
+</main>
+
+{% endblock content %}

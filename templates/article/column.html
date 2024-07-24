@@ -1,0 +1,29 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    分类
+{% endblock title %}
+{% block content %}
+    <div class="container my-3">
+
+    <h1>栏目列表</h1>
+    {% for column in columns %}
+          <div class="bg-light p-5 rounded my-1">
+          <div class="d-flex align-items-center my-2">
+              <h1 class="me-3">{{ column.title}}</h1>
+              <p class="mb-0">{{ column.title}}共有{{ columns|length }}篇长短文。</p>
+            </div>
+              
+        <a class="btn  btn-primary" href="{% url 'article:article_list_by_column' column.id %}" role="button">查看本栏目所有的文章</a>
+      </div>
+    {% empty %}
+        <li>暂无栏目</li>
+    {% endfor %}
+
+    </div>
+
+
+
+{% endblock content %}
