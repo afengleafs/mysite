@@ -1,7 +1,7 @@
 FROM python:3.11-alpine
 ENV PYTHONUNBUFFERED 1
 
-# 添加这两行
+# 添加这两行----
 RUN apt-get update
 RUN apt-get install python3-dev default-libmysqlclient-dev -y
 
