@@ -1,4 +1,4 @@
-FROM python:3.11-alpine
+FROM python:3.11
 ENV PYTHONUNBUFFERED 1
 
 # 安装必要的依赖
